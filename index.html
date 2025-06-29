@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <h2>Gửi Webhook tới Google Apps Scripttttttttt</h2>
+    <h2>Gửi Webhook tới Google Apps Script</h2>
 
     <form id="webhookForm" action="https://script.google.com/macros/s/AKfycbxlkWYvxuI8zMahGlAUQaX7ASZj2710QbOLweL6InXnvCHF9YQxa4_TB8WdBOyQpxH4/exec" method="POST" target="invisibleFrame">
       <input type="hidden" name="command" value="start">
@@ -13,15 +13,16 @@
       <button type="submit">Gửi lệnh</button>
     </form>
 
-    <!-- Khung tàng hình để gửi form mà không chuyển trang -->
     <iframe name="invisibleFrame" style="display:none;"></iframe>
 
     <script>
       const form = document.getElementById("webhookForm");
       const timestampInput = document.getElementById("timestamp");
 
-      form.addEventListener("submit", function () {
-        timestampInput.value = new Date().toISOString();
+      form.addEventListener("submit", function (event) {
+        event.preventDefault(); // Ngăn form gửi ngay
+        timestampInput.value = new Date().toISOString(); // Cập nhật thời gian
+        form.submit(); // Gửi form sau khi có timestamp
       });
     </script>
   </body>
