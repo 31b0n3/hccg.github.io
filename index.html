@@ -12,15 +12,16 @@
     function sendWebhook() {
       const url = "https://script.google.com/macros/s/AKfycbxlkWYvxuI8zMahGlAUQaX7ASZj2710QbOLweL6InXnvCHF9YQxa4_TB8WdBOyQpxH4/exec";
 
+      const params = new URLSearchParams();
+      params.append("command", "start");
+      params.append("timestamp", new Date().toISOString());
+
       fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/x-www-form-urlencoded"
         },
-        body: JSON.stringify({
-          command: "start",
-          timestamp: new Date().toISOString()
-        })
+        body: params.toString()
       })
       .then(res => res.text())
       .then(data => alert("Đã gửi: " + data))
