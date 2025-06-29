@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Webhook Button</title>
+</head>
+<body>
+  <h2>Gửi Webhook tới Google Apps Script</h2>
+  <button onclick="sendWebhook()">Gửi lệnh</button>
+
+  <script>
+    function sendWebhook() {
+      const webhookUrl = "https://script.google.com/macros/s/AKfycbxlkWYvxuI8zMahGlAUQaX7ASZj2710QbOLweL6InXnvCHF9YQxa4_TB8WdBOyQpxH4/exec"; // <-- Thay bằng URL của bạn
+
+      fetch(webhookUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          command: "start",
+          timestamp: new Date().toISOString()
+        })
+      })
+      .then(response => response.text())
+      .then(data => alert("Đã gửi lệnh thành công: " + data))
+      .catch(error => alert("Lỗi: " + error));
+    }
+  </script>
+</body>
+</html>
