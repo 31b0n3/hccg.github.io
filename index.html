@@ -1,30 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Webhook Button</title>
-</head>
-<body>
-  <h2>Gửi Webhook tới Google Apps Script</h2>
-  <button onclick="sendWebhook()">Gửi lệnh</button>
+  <head>
+    <title>Webhook Button</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h2>Gửi Webhook tới Google Apps Script</h2>
 
-  <script>
-    function sendWebhook() {
-      const webhookUrl = "https://script.google.com/macros/s/AKfycbxlkWYvxuI8zMahGlAUQaX7ASZj2710QbOLweL6InXnvCHF9YQxa4_TB8WdBOyQpxH4/exec"; // <-- Thay bằng URL của bạn
+    <form id="webhookForm" action="https://script.google.com/macros/s/AKfycbxlkWYvxuI8zMahGlAUQaX7ASZj2710QbOLweL6InXnvCHF9YQxa4_TB8WdBOyQpxH4/exec" method="POST" target="invisibleFrame">
+      <input type="hidden" name="command" value="start">
+      <input type="hidden" name="timestamp" id="timestamp">
+      <button type="submit">Gửi lệnh</button>
+    </form>
 
-      fetch(webhookUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          command: "start",
-          timestamp: new Date().toISOString()
-        })
-      })
-      .then(response => response.text())
-      .then(data => alert("Đã gửi lệnh thành công: " + data))
-      .catch(error => alert("Lỗi: " + error));
-    }
-  </script>
-</body>
+    <!-- Khung tàng hình để gửi form mà không chuyển trang -->
+    <iframe name="invisibleFrame" style="display:none;"></iframe>
+
+    <script>
+      const form = document.getElementById("webhookForm");
+      const timestampInput = document.getElementById("timestamp");
+
+      form.addEventListener("submit", function () {
+        timestampInput.value = new Date().toISOString();
+      });
+    </script>
+  </body>
 </html>
