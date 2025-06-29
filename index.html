@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Webhook Button</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <h2>Gửi Webhook tới Google Apps Script</h2>
+<head>
+  <title>Webhook Button</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Gửi Webhook tới Google Apps Script</h2>
+  <button onclick="sendWebhook()">Gửi lệnh</button>
 
-    <form id="webhookForm" action="https://script.google.com/macros/s/AKfycbxlkWYvxuI8zMahGlAUQaX7ASZj2710QbOLweL6InXnvCHF9YQxa4_TB8WdBOyQpxH4/exec" method="POST" target="invisibleFrame">
-      <input type="hidden" name="command" value="start">
-      <input type="hidden" name="timestamp" id="timestamp">
-      <button type="submit">Gửi lệnh</button>
-    </form>
+  <script>
+    function sendWebhook() {
+      const url = "https://script.google.com/macros/s/AKfycbxlkWYvxuI8zMahGlAUQaX7ASZj2710QbOLweL6InXnvCHF9YQxa4_TB8WdBOyQpxH4/exec";
 
-    <iframe name="invisibleFrame" style="display:none;"></iframe>
-
-    <script>
-      const form = document.getElementById("webhookForm");
-      const timestampInput = document.getElementById("timestamp");
-
-      form.addEventListener("submit", function (event) {
-        event.preventDefault(); // Ngăn form gửi ngay
-        timestampInput.value = new Date().toISOString(); // Cập nhật thời gian
-        form.submit(); // Gửi form sau khi có timestamp
-      });
-    </script>
-  </body>
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          command: "start",
+          timestamp: new Date().toISOString()
+        })
+      })
+      .then(res => res.text())
+      .then(data => alert("Đã gửi: " + data))
+      .catch(err => alert("Lỗi gửi: " + err));
+    }
+  </script>
+</body>
 </html>
